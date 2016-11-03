@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 7493d9cd3152f9747a94c2e1c2028249
+timeCreated: 1478141259
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PxPlus IBM VGA9
+  fontNames:
+  - PxPlus IBM VGA9
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

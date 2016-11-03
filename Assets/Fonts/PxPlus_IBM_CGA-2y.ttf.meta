@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f46931489f0d4524cbbdb9abb172cf54
+timeCreated: 1478141259
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PxPlus IBM CGA-2y
+  fontNames:
+  - PxPlus IBM CGA-2y
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

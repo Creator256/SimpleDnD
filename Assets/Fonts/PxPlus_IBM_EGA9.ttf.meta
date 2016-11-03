@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 1ac6eb5c7dd19b74cabadfb6fd4312ce
+timeCreated: 1478141259
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PxPlus IBM EGA9
+  fontNames:
+  - PxPlus IBM EGA9
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

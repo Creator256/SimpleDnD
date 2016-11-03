@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: a6d9bfdc2050e1d47990cefa487f672b
+timeCreated: 1478141259
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PxPlus VGA SquarePx
+  fontNames:
+  - PxPlus VGA SquarePx
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

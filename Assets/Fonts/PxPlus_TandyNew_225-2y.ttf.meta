@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e35d991eeab39ef4698fe3e5fdec3786
+timeCreated: 1478141259
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PxPlus TandyNew 225-2y
+  fontNames:
+  - PxPlus TandyNew 225-2y
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

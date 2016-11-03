@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9fcbdec8952ea5c45ade37b99b89047b
-timeCreated: 1478120933
+guid: 7e9c1922909c9c64b9c79c35b5e6362d
+timeCreated: 1478141259
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Perfect DOS VGA 437 Win
+  fontName: PxPlus IBM EGA8-2x
   fontNames:
-  - Perfect DOS VGA 437 Win
+  - PxPlus IBM EGA8-2x
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

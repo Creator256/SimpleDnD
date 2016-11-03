@@ -25,18 +25,28 @@ public class CommandLine : MonoBehaviour {
 		listCMD.RemoveAt(0);
 
 		switch (cmdVal) {
-		case "print":
-			PrintText(listCMD);
-			break;
-		case "add":
-			Add(listCMD);
-			break;
-		case "help":
-			Help ();
-			break;
-		default:
-			consoleOutput.text = "Invalid Command!";
-			break;
+			case "print":
+				consoleOutput.text += "\n";
+				PrintText(listCMD);
+				break;
+			case "add":
+				consoleOutput.text += "\n";
+				Add(listCMD);
+				break;
+			case "subtract":
+				Subtract(listCMD);
+				break;
+			case "roll":
+				consoleOutput.text += "\n";
+				Roll(listCMD);
+				break;						
+			case "help":
+				consoleOutput.text += "\n";
+				Help ();
+				break;
+			default:
+				consoleOutput.text = "Invalid Command!";
+				break;
 
 		}
 	}
@@ -45,28 +55,47 @@ public class CommandLine : MonoBehaviour {
 		string tempText = "";
 		for (int i = 0; i < cmdParams.Count; i++) {
 			tempText += cmdParams[i];
-
+			tempText += " ";
 		}
-		consoleOutput.text = tempText;
+		consoleOutput.text += tempText;
 	}
 
 	void Add(List<string> cmdParams){
 		float a = Convert.ToSingle(cmdParams[0]);
 		float b = Convert.ToSingle(cmdParams[1]);
 		float c = a + b;
-		consoleOutput.text = a.ToString() + " + " + b.ToString() + " = " + c.ToString();
+		consoleOutput.text += a.ToString() + " + " + b.ToString() + " = " + c.ToString();
+	}
+
+	void Subtract(List<string> cmdParams){
+		float a = Convert.ToSingle(cmdParams[0]);
+		float b = Convert.ToSingle(cmdParams[1]);
+		float c = a - b;
+		consoleOutput.text += a.ToString() + " - " + b.ToString() + " = " + c.ToString();
+	}
+
+	void Roll(List<string> cmdParams){
+		int lower = 1;
+		int upper = 6;
+		if(cmdParams.Count != 0){
+			lower = Convert.ToInt32(cmdParams[0]);
+			upper = Convert.ToInt32(cmdParams[1]);
+		}
+		int roll = (int)(UnityEngine.Random.Range(lower, upper));
+
+		consoleOutput.text += "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!";
 	}
 
 	void Help(){
-		consoleOutput.text = "Commands Available: \n " +
-		"Help - Prints help ~ help" +
-		"Print - Prints out whatever ~ print text" +
-		"Add - Adds numbers ~ add a b" +
-		"Subract - Subtracts number ~ subtract a b" +
-		"Roll - Random number between [a,b] ~ roll a b" +
-		"TextColor - Changes text color ~ tColor R G B" +
-		"Clear - clears console ~ clear" +
-		"Name - changes your name ~ name text";
+		consoleOutput.text += "Commands Available:\n" +
+			"Help - Prints help ~ help\n" +
+			"Print - Prints out whatever ~ print text\n" +
+			"Add - Adds numbers ~ add a b\n" +
+			"Subract - Subtracts number ~ subtract a b\n" +
+			"Roll - Random number between [a,b] ~ roll a b\n" +
+			"TextColor - Changes text color ~ tColor R G B\n" +
+			"Clear - clears console ~ clear\n" +
+			"Name - changes your name ~ name text\n";
 	
 	}
 }
