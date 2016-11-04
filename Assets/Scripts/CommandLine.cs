@@ -7,6 +7,7 @@ using System;
 public class CommandLine : MonoBehaviour {
 
 	public Text consoleOutput;
+	string name;
 
 	// Use this for initialization
 	void Start () {
@@ -34,12 +35,28 @@ public class CommandLine : MonoBehaviour {
 				Add(listCMD);
 				break;
 			case "subtract":
+				consoleOutput.text += "\n";
 				Subtract(listCMD);
 				break;
 			case "roll":
 				consoleOutput.text += "\n";
 				Roll(listCMD);
-				break;						
+				break;
+			case "tColor":
+				//Doesnt need a new line because it doesnt print anything
+				TextColor (listCMD);
+				break;
+			case "clear":
+				consoleOutput.text = " ";
+				break;
+			case "name":
+				consoleOutput.text += "\n";
+				Name ();
+				break;
+			case "cName":
+				consoleOutput.text += "\n";
+				ChangeName (listCMD);
+				break;
 			case "help":
 				consoleOutput.text += "\n";
 				Help ();
@@ -86,16 +103,33 @@ public class CommandLine : MonoBehaviour {
 		consoleOutput.text += "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!";
 	}
 
+	void TextColor (List<string> cmdParams){
+		int red = Convert.ToInt32(cmdParams [0]);
+		int green = Convert.ToInt32(cmdParams [1]);
+		int blue = Convert.ToInt32(cmdParams [2]);
+		consoleOutput.color = new Color (red, green, blue, 1);
+	}
+
+	void Name(){
+		consoleOutput.text += "Your name is " + name;
+	}
+
+	void ChangeName(List<string> cmdParams){
+		name = cmdParams [0];
+		consoleOutput.text += "You have changed your name to " + name;
+	}
+
 	void Help(){
 		consoleOutput.text += "Commands Available:\n" +
-			"Help - Prints help ~ help\n" +
-			"Print - Prints out whatever ~ print text\n" +
-			"Add - Adds numbers ~ add a b\n" +
-			"Subract - Subtracts number ~ subtract a b\n" +
-			"Roll - Random number between [a,b] ~ roll a b\n" +
-			"TextColor - Changes text color ~ tColor R G B\n" +
-			"Clear - clears console ~ clear\n" +
-			"Name - changes your name ~ name text\n";
-	
+		"Help - Prints help = help\n" +
+		"Print - Prints out whatever = print text\n" +
+		"Add - Adds numbers = add a b\n" +
+		"Subract - Subtracts number = subtract a b\n" +
+		"Roll - Random number between [a,b] = roll a b\n" +
+		"TextColor - Changes text color = tColor dR G B\n" +
+		"Clear - clears console = clear\n" +
+		"ChangeName - changes your name = cName name\n" +
+		"Name - prints your name = name\n";
+		
 	}
 }
