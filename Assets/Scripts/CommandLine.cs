@@ -6,17 +6,35 @@ using System;
 
 public class CommandLine : MonoBehaviour {
 
-	public Text consoleOutput;
+	public RectTransform console;
+	Text consoleOutput;
 	string name;
+	public InputField input;
+	public Text inputText;
+	public Text beforeCMDText;
+	public Color textColor;
 
-	// Use this for initialization
-	void Start () {
-		InputField input = GetComponent<InputField> ();
-		input.onEndEdit.AddListener (ParseCommand);
+
+	void OnStart(){
 	}
-	
-	// Update is called once per frame
+
+	void OnEnable () {
+		consoleOutput = console.GetComponent<Text>();
+
+		input.onEndEdit.AddListener(ParseCommand);
+		consoleOutput.color = textColor;
+		inputText.color = textColor;
+		beforeCMDText.color = textColor;
+	}
+
+
+	//All command parsing
+	//and commands are found below
 	void ParseCommand (string pCMD) {
+		input.text = ""; 
+		input.ActivateInputField(); 
+		input.Select();
+
 		string[] splitCMD = pCMD.Split (' ');
 		List<string> listCMD = new List<string>();
 		for (int i = 0; i < splitCMD.Length; i++) {
@@ -28,23 +46,28 @@ public class CommandLine : MonoBehaviour {
 		switch (cmdVal) {
 			case "print":
 				consoleOutput.text += "\n";
-				PrintText(listCMD);
+				if(listCMD.Count > 0)
+					PrintText(listCMD);
 				break;
 			case "add":
 				consoleOutput.text += "\n";
-				Add(listCMD);
+				if(listCMD.Count > 0)
+					Add(listCMD);
 				break;
 			case "subtract":
 				consoleOutput.text += "\n";
-				Subtract(listCMD);
+				if(listCMD.Count > 0)
+					Subtract(listCMD);
 				break;
 			case "roll":
 				consoleOutput.text += "\n";
-				Roll(listCMD);
+				if(listCMD.Count > 0)
+					Roll(listCMD);
 				break;
 			case "tColor":
 				//Doesnt need a new line because it doesnt print anything
-				TextColor (listCMD);
+				if(listCMD.Count > 0)
+					TextColor (listCMD);
 				break;
 			case "clear":
 				consoleOutput.text = " ";
@@ -55,21 +78,42 @@ public class CommandLine : MonoBehaviour {
 				break;
 			case "cName":
 				consoleOutput.text += "\n";
-				ChangeName (listCMD);
+				if(listCMD.Count > 0)
+					ChangeName (listCMD);
 				break;
 			case "help":
 				consoleOutput.text += "\n";
 				Help ();
 				break;
 			default:
-				consoleOutput.text = "Invalid Command!";
+				consoleOutput.text += "\n";
+				consoleOutput.text += "Invalid Command!";
 				break;
-
 		}
+		//Check to see if console is now too long
+//		if(console.rect.height >= 3900){
+//			string conOut = consoleOutput.text;
+//			string tempString = "";
+//			string[] splitText = conOut.Split('\n');
+//			List<string> stringList = new List<string>();
+//			for(int x = 0; x < splitText.Length; x++){
+//				stringList.Add(splitText[x]);
+//			}
+//			while(console.rect.height >= 3900){
+//				stringList.RemoveAt(0);
+//				for(int i = 0; i < stringList.Count; i++){
+//					tempString += stringList[i];
+//				}
+//				consoleOutput.text = tempString;
+//			}
+//
+//		}
+	
+
 	}
 
 	void PrintText(List<string> cmdParams){
-		string tempText = "";
+		string tempText = "Console: ";
 		for (int i = 0; i < cmdParams.Count; i++) {
 			tempText += cmdParams[i];
 			tempText += " ";
@@ -81,14 +125,14 @@ public class CommandLine : MonoBehaviour {
 		float a = Convert.ToSingle(cmdParams[0]);
 		float b = Convert.ToSingle(cmdParams[1]);
 		float c = a + b;
-		consoleOutput.text += a.ToString() + " + " + b.ToString() + " = " + c.ToString();
+		consoleOutput.text += "Console: " + a.ToString() + " + " + b.ToString() + " = " + c.ToString();
 	}
 
 	void Subtract(List<string> cmdParams){
 		float a = Convert.ToSingle(cmdParams[0]);
 		float b = Convert.ToSingle(cmdParams[1]);
 		float c = a - b;
-		consoleOutput.text += a.ToString() + " - " + b.ToString() + " = " + c.ToString();
+		consoleOutput.text += "Console: " + a.ToString() + " - " + b.ToString() + " = " + c.ToString();
 	}
 
 	void Roll(List<string> cmdParams){
@@ -100,23 +144,26 @@ public class CommandLine : MonoBehaviour {
 		}
 		int roll = (int)(UnityEngine.Random.Range(lower, upper));
 
-		consoleOutput.text += "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!";
+		consoleOutput.text += "Console: " + "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!";
 	}
 
 	void TextColor (List<string> cmdParams){
 		int red = Convert.ToInt32(cmdParams [0]);
 		int green = Convert.ToInt32(cmdParams [1]);
 		int blue = Convert.ToInt32(cmdParams [2]);
-		consoleOutput.color = new Color (red, green, blue, 1);
+		Color newTextColor = new Color (red, green, blue, 1);
+		consoleOutput.color = newTextColor;
+		inputText.color = newTextColor;
+		beforeCMDText.color = newTextColor;
 	}
 
 	void Name(){
-		consoleOutput.text += "Your name is " + name;
+		consoleOutput.text += "Console: " + "Your name is " + name;
 	}
 
 	void ChangeName(List<string> cmdParams){
 		name = cmdParams [0];
-		consoleOutput.text += "You have changed your name to " + name;
+		consoleOutput.text += "Console: " + "You have changed your name to " + name;
 	}
 
 	void Help(){
@@ -129,7 +176,7 @@ public class CommandLine : MonoBehaviour {
 		"TextColor - Changes text color = tColor dR G B\n" +
 		"Clear - clears console = clear\n" +
 		"ChangeName - changes your name = cName name\n" +
-		"Name - prints your name = name\n";
+		"Name - prints your name = name";
 		
 	}
 }
