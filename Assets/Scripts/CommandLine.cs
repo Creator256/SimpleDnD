@@ -14,6 +14,7 @@ public class CommandLine : MonoBehaviour {
 	public Text beforeCMDText;
 	public Color textColor;
 
+	public List<ScriptablePlayer> players;
 
 	void OnStart(){
 	}
@@ -80,6 +81,33 @@ public class CommandLine : MonoBehaviour {
 				consoleOutput.text += "\n";
 				if(listCMD.Count > 0)
 					ChangeName (listCMD);
+				break;
+			case "getStats":
+				consoleOutput.text += "\n";
+				ScriptablePlayer tempGSplayer = new ScriptablePlayer();
+				if (listCMD.Count > 0) {
+					for (int i = 0; i < players.Count; i++) {
+						if (players [i].playerName == listCMD [0]) {
+							tempGSplayer = players [i];
+							break;
+						}
+					}
+				}
+				PrintStats (tempGSplayer);
+				break;
+			case "changeStat":
+				consoleOutput.text += "\n";
+				ScriptablePlayer tempCSPlayer = new ScriptablePlayer ();
+				if (listCMD.Count > 0) {
+					for (int i = 0; i < players.Count; i++) {
+						if (players [i].playerName == listCMD [0]) {
+							tempCSPlayer = players [i];
+							break;
+						}
+					}
+				}
+				listCMD.RemoveAt (0);
+				ChangeStats(tempCSPlayer,listCMD);
 				break;
 			case "help":
 				consoleOutput.text += "\n";
@@ -166,6 +194,22 @@ public class CommandLine : MonoBehaviour {
 		consoleOutput.text += "Console: " + "You have changed your name to " + name;
 	}
 
+	void PrintStats(ScriptablePlayer player){
+		consoleOutput.text += "Name: " + player.playerName + "\n" +
+		"Level: " + player.playerLevel + "\n" +
+		"EXP: " + player.exp + "\n" +
+		"Strength: " + player.strength + "\n" +
+		"Agility: " + player.agility + "\n" +
+		"Intelligence: " + player.intelligence + "\n" +
+		"Vitality: " + player.vitality + "\n" +
+		"Luck: " + player.luck + "\n";
+
+	}
+	void ChangeStats(ScriptablePlayer player, List<string> cmdParams){
+		player.UpdateStat (cmdParams);
+		consoleOutput.text += cmdParams [0] + " changed to " + cmdParams [1] + "\n";
+	}
+
 	void Help(){
 		consoleOutput.text += "Commands Available:\n" +
 		"Help - Prints help = help\n" +
@@ -173,10 +217,11 @@ public class CommandLine : MonoBehaviour {
 		"Add - Adds numbers = add a b\n" +
 		"Subract - Subtracts number = subtract a b\n" +
 		"Roll - Random number between [a,b] = roll a b\n" +
-		"TextColor - Changes text color = tColor dR G B\n" +
+		"TextColor - Changes text color = tColor R G B\n" +
 		"Clear - clears console = clear\n" +
 		"ChangeName - changes your name = cName name\n" +
-		"Name - prints your name = name";
+		"Name - prints your name = name\n" +
+		"Get Stats - prints out stats of a player = stats playerName\n";
 		
 	}
 }
