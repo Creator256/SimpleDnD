@@ -7,6 +7,7 @@ using System;
 public class CommandLine : MonoBehaviour {
 
 	public RectTransform console;
+	public StatsMenu statsMenu;
 	Text consoleOutput;
 	string name;
 	public InputField input;
@@ -16,22 +17,35 @@ public class CommandLine : MonoBehaviour {
 
 	public List<ScriptablePlayer> players;
 
-	void OnStart(){
-	}
+	string outputStack;
+	bool commandRunning = false;
+
+
 
 	void OnEnable () {
 		consoleOutput = console.GetComponent<Text>();
 
-		input.onEndEdit.AddListener(ParseCommand);
+		input.onEndEdit.AddListener(x => {
+			if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) 
+				ParseCommand(input.text);
+		});
 		consoleOutput.color = textColor;
 		inputText.color = textColor;
 		beforeCMDText.color = textColor;
+		statsMenu.strText.color = textColor;
+		statsMenu.agiText.color = textColor;
+		statsMenu.intText.color = textColor;
+		statsMenu.vitText.color = textColor;
+		statsMenu.lucText.color = textColor;
+		statsMenu.titleText.color = textColor;
 	}
-
 
 	//All command parsing
 	//and commands are found below
 	void ParseCommand (string pCMD) {
+		if(commandRunning){
+			return;
+		}
 		input.text = ""; 
 		input.ActivateInputField(); 
 		input.Select();
@@ -43,47 +57,45 @@ public class CommandLine : MonoBehaviour {
 		}
 		string cmdVal = listCMD[0];
 		listCMD.RemoveAt(0);
-
+		commandRunning = true;
 		switch (cmdVal) {
 			case "print":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				if(listCMD.Count > 0)
 					PrintText(listCMD);
 				break;
 			case "add":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				if(listCMD.Count > 0)
 					Add(listCMD);
 				break;
 			case "subtract":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				if(listCMD.Count > 0)
 					Subtract(listCMD);
 				break;
 			case "roll":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				if(listCMD.Count > 0)
 					Roll(listCMD);
 				break;
 			case "tColor":
 				//Doesnt need a new line because it doesnt print anything
+				outputStack = "";
 				if(listCMD.Count > 0)
 					TextColor (listCMD);
 				break;
-			case "clear":
-				consoleOutput.text = " ";
-				break;
 			case "name":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				Name ();
 				break;
 			case "cName":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				if(listCMD.Count > 0)
 					ChangeName (listCMD);
 				break;
 			case "getStats":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				ScriptablePlayer tempGSplayer = new ScriptablePlayer();
 				if (listCMD.Count > 0) {
 					for (int i = 0; i < players.Count; i++) {
@@ -96,7 +108,7 @@ public class CommandLine : MonoBehaviour {
 				PrintStats (tempGSplayer);
 				break;
 			case "changeStat":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				ScriptablePlayer tempCSPlayer = new ScriptablePlayer ();
 				if (listCMD.Count > 0) {
 					for (int i = 0; i < players.Count; i++) {
@@ -109,35 +121,52 @@ public class CommandLine : MonoBehaviour {
 				listCMD.RemoveAt (0);
 				ChangeStats(tempCSPlayer,listCMD);
 				break;
+			case "openStats":
+				if(!statsMenu.open){
+					statsMenu.OpenMenu();
+					outputStack += "Console: Opening Stats Menu.\n";
+				}
+				else
+					outputStack += "Console: Stats menu is already open.\n";
+				break;
+			case "closeStats":
+				if(statsMenu.open){
+					statsMenu.CloseMenu();
+					outputStack += "Console: Closing Stats Menu.\n";
+				}
+				else
+					outputStack += "Console: Stats menu is already closed.\n";
+				break;
+			case "clear":
+				consoleOutput.text = " ";
+				break;
 			case "help":
-				consoleOutput.text += "\n";
+				outputStack += "\n";
 				Help ();
 				break;
 			default:
-				consoleOutput.text += "\n";
-				consoleOutput.text += "Invalid Command!";
+				outputStack += "\n";
+				outputStack += "Invalid Command!";
 				break;
 		}
-		//Check to see if console is now too long
-//		if(console.rect.height >= 3900){
-//			string conOut = consoleOutput.text;
-//			string tempString = "";
-//			string[] splitText = conOut.Split('\n');
-//			List<string> stringList = new List<string>();
-//			for(int x = 0; x < splitText.Length; x++){
-//				stringList.Add(splitText[x]);
-//			}
-//			while(console.rect.height >= 3900){
-//				stringList.RemoveAt(0);
-//				for(int i = 0; i < stringList.Count; i++){
-//					tempString += stringList[i];
-//				}
-//				consoleOutput.text = tempString;
-//			}
-//
-//		}
-	
 
+
+		StartCoroutine(PrintOut());
+	}
+
+	IEnumerator PrintOut(){
+		if(outputStack.Length != 0){
+			for(int i = 0; i < outputStack.Length; i++){
+				consoleOutput.text += outputStack[i];
+				yield return new WaitForSeconds(0);
+			}
+			outputStack = "";
+			commandRunning = false;
+		}
+		else{
+			outputStack = "";
+			commandRunning = false;
+		}
 	}
 
 	void PrintText(List<string> cmdParams){
@@ -146,21 +175,21 @@ public class CommandLine : MonoBehaviour {
 			tempText += cmdParams[i];
 			tempText += " ";
 		}
-		consoleOutput.text += tempText;
+		outputStack += tempText;
 	}
 
 	void Add(List<string> cmdParams){
 		float a = Convert.ToSingle(cmdParams[0]);
 		float b = Convert.ToSingle(cmdParams[1]);
 		float c = a + b;
-		consoleOutput.text += "Console: " + a.ToString() + " + " + b.ToString() + " = " + c.ToString();
+		outputStack += "Console: " + a.ToString() + " + " + b.ToString() + " = " + c.ToString();
 	}
 
 	void Subtract(List<string> cmdParams){
 		float a = Convert.ToSingle(cmdParams[0]);
 		float b = Convert.ToSingle(cmdParams[1]);
 		float c = a - b;
-		consoleOutput.text += "Console: " + a.ToString() + " - " + b.ToString() + " = " + c.ToString();
+		outputStack += "Console: " + a.ToString() + " - " + b.ToString() + " = " + c.ToString();
 	}
 
 	void Roll(List<string> cmdParams){
@@ -172,30 +201,36 @@ public class CommandLine : MonoBehaviour {
 		}
 		int roll = (int)(UnityEngine.Random.Range(lower, upper));
 
-		consoleOutput.text += "Console: " + "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!";
+		outputStack += "Console: " + "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!";
 	}
 
 	void TextColor (List<string> cmdParams){
 		int red = Convert.ToInt32(cmdParams [0]);
 		int green = Convert.ToInt32(cmdParams [1]);
 		int blue = Convert.ToInt32(cmdParams [2]);
-		Color newTextColor = new Color (red, green, blue, 1);
+		Color newTextColor = new Color (red/255.0f, green/255.0f, blue/255.0f, 1);
 		consoleOutput.color = newTextColor;
 		inputText.color = newTextColor;
 		beforeCMDText.color = newTextColor;
-	}
+		statsMenu.strText.color = newTextColor;
+		statsMenu.agiText.color = newTextColor;
+		statsMenu.intText.color = newTextColor;
+		statsMenu.vitText.color = newTextColor;
+		statsMenu.lucText.color = newTextColor;
+		statsMenu.titleText.color = newTextColor;
+}
 
 	void Name(){
-		consoleOutput.text += "Console: " + "Your name is " + name;
+		outputStack += "Console: " + "Your name is " + name;
 	}
 
 	void ChangeName(List<string> cmdParams){
 		name = cmdParams [0];
-		consoleOutput.text += "Console: " + "You have changed your name to " + name;
+		outputStack += "Console: " + "You have changed your name to " + name;
 	}
 
 	void PrintStats(ScriptablePlayer player){
-		consoleOutput.text += "Name: " + player.playerName + "\n" +
+		outputStack += "Name: " + player.playerName + "\n" +
 		"Level: " + player.playerLevel + "\n" +
 		"EXP: " + player.exp + "\n" +
 		"Strength: " + player.strength + "\n" +
@@ -205,13 +240,15 @@ public class CommandLine : MonoBehaviour {
 		"Luck: " + player.luck + "\n";
 
 	}
+
 	void ChangeStats(ScriptablePlayer player, List<string> cmdParams){
 		player.UpdateStat (cmdParams);
-		consoleOutput.text += cmdParams [0] + " changed to " + cmdParams [1] + "\n";
+		outputStack += cmdParams [0] + " changed to " + cmdParams [1] + "\n";
+		statsMenu.UpdateUI();
 	}
 
 	void Help(){
-		consoleOutput.text += "Commands Available:\n" +
+		outputStack += "Commands Available:\n" +
 		"Help - Prints help = help\n" +
 		"Print - Prints out whatever = print text\n" +
 		"Add - Adds numbers = add a b\n" +
