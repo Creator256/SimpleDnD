@@ -94,6 +94,11 @@ public class CommandLine : MonoBehaviour {
 				if(listCMD.Count > 0)
 					ChangeName (listCMD);
 				break;
+			case "newPlayer":
+				outputStack += "\n";
+				if(listCMD.Count > 0)
+					CreateNewPlayer(listCMD);
+				break;
 			case "getStats":
 				outputStack += "\n";
 				ScriptablePlayer tempGSplayer = new ScriptablePlayer();
@@ -227,6 +232,12 @@ public class CommandLine : MonoBehaviour {
 	void ChangeName(List<string> cmdParams){
 		name = cmdParams [0];
 		outputStack += "Console: " + "You have changed your name to " + name;
+	}
+
+	void CreateNewPlayer(List<string> cmdParams){
+		ScriptablePlayer newPlayer = ScriptableObject.CreateInstance("ScriptablePlayer") as ScriptablePlayer;
+		newPlayer.playerName = cmdParams[0];
+		outputStack += "Console: A new player with the name " + cmdParams[0] + " has been created.\n";
 	}
 
 	void PrintStats(ScriptablePlayer player){

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
-
 [CreateAssetMenu(fileName = "Player", menuName = "Player/Player", order = 1)]
+[Serializable]
 public class ScriptablePlayer : ScriptableObject	 {
 
 	public string playerName;
