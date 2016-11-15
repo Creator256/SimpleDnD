@@ -24,7 +24,7 @@ public class StatsMenu : MonoBehaviour {
 	public Text lucText;
 
 	[Header("Test Player")]
-	public ScriptablePlayer player;
+	public Player player;
 
 	[Header("Other Vars")]
 	public bool open;

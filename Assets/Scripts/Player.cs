@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
-[CreateAssetMenu(fileName = "Player", menuName = "Player/Player", order = 1)]
 [Serializable]
-public class ScriptablePlayer : ScriptableObject	 {
+public class Player : MonoBehaviour	 {
 
 	public string playerName;
 	public int strength;
@@ -16,6 +16,15 @@ public class ScriptablePlayer : ScriptableObject	 {
 	public int playerLevel;
 	public float exp;
 
+	public void Save(){
+		string saveString = JsonUtility.ToJson (this, true);
+		string path = Application.dataPath + "/Player.json";
+		File.WriteAllText (path, saveString);
+		#if UNITY_EDITOR
+		UnityEditor.AssetDatabase.Refresh ();
+		#endif
+	}
+		
 	public void UpdateStat(List<string> cmdParams){
 		switch (cmdParams [0]) {
 			case "strength":

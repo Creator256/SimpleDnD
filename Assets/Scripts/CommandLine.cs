@@ -15,7 +15,7 @@ public class CommandLine : MonoBehaviour {
 	public Text beforeCMDText;
 	public Color textColor;
 
-	public List<ScriptablePlayer> players;
+	public List<Player> players;
 
 	string outputStack;
 	bool commandRunning = false;
@@ -101,7 +101,7 @@ public class CommandLine : MonoBehaviour {
 				break;
 			case "getStats":
 				outputStack += "\n";
-				ScriptablePlayer tempGSplayer = new ScriptablePlayer();
+				Player tempGSplayer = new Player();
 				if (listCMD.Count > 0) {
 					for (int i = 0; i < players.Count; i++) {
 						if (players [i].playerName == listCMD [0]) {
@@ -114,7 +114,7 @@ public class CommandLine : MonoBehaviour {
 				break;
 			case "changeStat":
 				outputStack += "\n";
-				ScriptablePlayer tempCSPlayer = new ScriptablePlayer ();
+				Player tempCSPlayer = new Player ();
 				if (listCMD.Count > 0) {
 					for (int i = 0; i < players.Count; i++) {
 						if (players [i].playerName == listCMD [0]) {
@@ -235,12 +235,12 @@ public class CommandLine : MonoBehaviour {
 	}
 
 	void CreateNewPlayer(List<string> cmdParams){
-		ScriptablePlayer newPlayer = ScriptableObject.CreateInstance("ScriptablePlayer") as ScriptablePlayer;
+		Player newPlayer = new Player ();
 		newPlayer.playerName = cmdParams[0];
 		outputStack += "Console: A new player with the name " + cmdParams[0] + " has been created.\n";
 	}
 
-	void PrintStats(ScriptablePlayer player){
+	void PrintStats(Player player){
 		outputStack += "Name: " + player.playerName + "\n" +
 		"Level: " + player.playerLevel + "\n" +
 		"EXP: " + player.exp + "\n" +
@@ -252,7 +252,7 @@ public class CommandLine : MonoBehaviour {
 
 	}
 
-	void ChangeStats(ScriptablePlayer player, List<string> cmdParams){
+	void ChangeStats(Player player, List<string> cmdParams){
 		player.UpdateStat (cmdParams);
 		outputStack += cmdParams [0] + " changed to " + cmdParams [1] + "\n";
 		statsMenu.UpdateUI();
