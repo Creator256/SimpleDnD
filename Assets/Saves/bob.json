@@ -1,0 +1,10 @@
+{
+    "playerName": "bob",
+    "strength": 0,
+    "agility": 0,
+    "intelligence": 0,
+    "vitality": 2,
+    "luck": 0,
+    "playerLevel": 0,
+    "exp": 0.0
+}

@@ -23,7 +23,7 @@ public class StatsMenu : MonoBehaviour {
 	public Text vitText;
 	public Text lucText;
 
-	[Header("Test Player")]
+	//[Header("Test Player")]
 	public Player player;
 
 	[Header("Other Vars")]
@@ -33,6 +33,7 @@ public class StatsMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		player = new Player();
 		strButton.onClick.AddListener (() => incStrength ());
 		agiButton.onClick.AddListener (() => incAgility ());
 		intButton.onClick.AddListener (() => incIntelligence ());
@@ -87,6 +88,7 @@ public class StatsMenu : MonoBehaviour {
 
 	public void OpenMenu(){
 		anims.SetTrigger("SlideIn");
+		UpdateUI();
 		open = true;
 	}
 

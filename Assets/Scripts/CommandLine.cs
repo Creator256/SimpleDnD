@@ -97,7 +97,16 @@ public class CommandLine : MonoBehaviour {
 			case "newPlayer":
 				outputStack += "\n";
 				if(listCMD.Count > 0)
-					CreateNewPlayer(listCMD);
+					NewPlayer(listCMD);
+				break;
+			case "savePlayer":
+				outputStack += "\n";
+				SavePlayer();
+				break;
+			case "loadPlayer":
+				outputStack += "\n";
+				if(listCMD.Count > 0)
+					LoadPlayer(listCMD);
 				break;
 			case "getStats":
 				outputStack += "\n";
@@ -234,10 +243,26 @@ public class CommandLine : MonoBehaviour {
 		outputStack += "Console: " + "You have changed your name to " + name;
 	}
 
-	void CreateNewPlayer(List<string> cmdParams){
-		Player newPlayer = new Player ();
-		newPlayer.playerName = cmdParams[0];
-		outputStack += "Console: A new player with the name " + cmdParams[0] + " has been created.\n";
+	void NewPlayer(List<string> cmdParams){
+		Player tempPlayer = new Player();
+		tempPlayer.playerName = cmdParams[0];
+		SaveLoadManager.SavePlayer(tempPlayer);
+		outputStack += "Console: New Player - " + cmdParams[0] + " has been created.\n";
+	}
+
+	void SavePlayer(){
+		SaveLoadManager.SavePlayer(statsMenu.player);
+		outputStack += "Console: " + statsMenu.player.playerName + " has been save.\n";
+	}
+
+	void LoadPlayer(List<string> cmdParams){
+		Debug.Log(cmdParams[0]);
+		Player tempP = SaveLoadManager.LoadPlayer(cmdParams[0]);
+		if(!players.Contains(tempP)){
+			players.Add(tempP);
+		}
+		statsMenu.player = tempP;
+		outputStack += "Console: Player - " + cmdParams[0] + " has been loaded.\n";
 	}
 
 	void PrintStats(Player player){
