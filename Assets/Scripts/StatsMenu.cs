@@ -8,6 +8,7 @@ public class StatsMenu : MonoBehaviour {
 	[Header("Main Stats Menu")]
 	public Transform statsMenu;
 	public Text titleText;
+	public Text playerName;
 
 	[Header("Button Vars")]
 	public Button strButton;
@@ -82,7 +83,7 @@ public class StatsMenu : MonoBehaviour {
 		intText.text = "Intelligence: " + player.intelligence;
 		vitText.text = "Vitality: " + player.vitality;
 		lucText.text = "Luck: " + player.luck;
-
+		playerName.text = player.playerName;
 	}
 
 

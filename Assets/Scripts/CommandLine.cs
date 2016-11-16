@@ -38,6 +38,7 @@ public class CommandLine : MonoBehaviour {
 		statsMenu.vitText.color = textColor;
 		statsMenu.lucText.color = textColor;
 		statsMenu.titleText.color = textColor;
+		statsMenu.playerName.color = textColor;
 	}
 
 	//All command parsing
@@ -79,7 +80,7 @@ public class CommandLine : MonoBehaviour {
 				if(listCMD.Count > 0)
 					Roll(listCMD);
 				break;
-			case "tColor":
+			case "textColor":
 				//Doesnt need a new line because it doesnt print anything
 				outputStack = "";
 				if(listCMD.Count > 0)
@@ -172,7 +173,7 @@ public class CommandLine : MonoBehaviour {
 		if(outputStack.Length != 0){
 			for(int i = 0; i < outputStack.Length; i++){
 				consoleOutput.text += outputStack[i];
-				yield return new WaitForSeconds(0);
+				yield return new WaitForSeconds(0.00001f);
 			}
 			outputStack = "";
 			commandRunning = false;
@@ -232,7 +233,8 @@ public class CommandLine : MonoBehaviour {
 		statsMenu.vitText.color = newTextColor;
 		statsMenu.lucText.color = newTextColor;
 		statsMenu.titleText.color = newTextColor;
-}
+		statsMenu.playerName.color = newTextColor;
+	}
 
 	void Name(){
 		outputStack += "Console: " + "Your name is " + name;
@@ -256,8 +258,11 @@ public class CommandLine : MonoBehaviour {
 	}
 
 	void LoadPlayer(List<string> cmdParams){
-		Debug.Log(cmdParams[0]);
 		Player tempP = SaveLoadManager.LoadPlayer(cmdParams[0]);
+		if (tempP.playerName == "N/A NotFound") {
+			outputStack += "Console: No player with that name found.\n";
+			return;
+		}
 		if(!players.Contains(tempP)){
 			players.Add(tempP);
 		}

@@ -18,8 +18,15 @@ public static class SaveLoadManager {
 	public static Player LoadPlayer(string pName){
 		Player temp = new Player();
 		string path = Application.dataPath + "/Saves/" + pName + ".json";
-		string jString = File.ReadAllText(path);
-		JsonUtility.FromJsonOverwrite(jString, temp);
+		if (File.Exists (path)) {
+			string jString = File.ReadAllText (path);
+			JsonUtility.FromJsonOverwrite (jString, temp);
+			return temp;
+		} 
+		else {
+			temp.playerName = "N/A NotFound";
+			return temp;
+		}
 		return temp;
 	}
 
