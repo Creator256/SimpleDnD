@@ -268,6 +268,7 @@ public class CommandLine : MonoBehaviour {
 		}
 		statsMenu.player = tempP;
 		outputStack += "Console: Player - " + cmdParams[0] + " has been loaded.\n";
+		statsMenu.UpdateUI ();
 	}
 
 	void PrintStats(Player player){
