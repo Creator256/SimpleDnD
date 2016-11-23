@@ -7,6 +7,8 @@ using System;
 public class CommandLine : MonoBehaviour {
 
 	public RectTransform console;
+	public Transform consoleCanvas;
+	public Transform statsCanvas;
 	public StatsMenu statsMenu;
 	Text consoleOutput;
 	string name;
@@ -14,6 +16,8 @@ public class CommandLine : MonoBehaviour {
 	public Text inputText;
 	public Text beforeCMDText;
 	public Color textColor;
+
+	public float outputSpeed;
 
 	public List<Player> players;
 
@@ -29,16 +33,13 @@ public class CommandLine : MonoBehaviour {
 			if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) 
 				ParseCommand(input.text);
 		});
-		consoleOutput.color = textColor;
-		inputText.color = textColor;
-		beforeCMDText.color = textColor;
-		statsMenu.strText.color = textColor;
-		statsMenu.agiText.color = textColor;
-		statsMenu.intText.color = textColor;
-		statsMenu.vitText.color = textColor;
-		statsMenu.lucText.color = textColor;
-		statsMenu.titleText.color = textColor;
-		statsMenu.playerName.color = textColor;
+		foreach(Text t in consoleCanvas.GetComponentsInChildren<Text>()){
+			t.color = textColor;
+		}
+
+		foreach(Text t in statsCanvas.GetComponentsInChildren<Text>()){
+			t.color = textColor;
+		}
 	}
 
 	//All command parsing
@@ -61,22 +62,18 @@ public class CommandLine : MonoBehaviour {
 		commandRunning = true;
 		switch (cmdVal) {
 			case "print":
-				outputStack += "\n";
 				if(listCMD.Count > 0)
 					PrintText(listCMD);
 				break;
 			case "add":
-				outputStack += "\n";
 				if(listCMD.Count > 0)
 					Add(listCMD);
 				break;
 			case "subtract":
-				outputStack += "\n";
 				if(listCMD.Count > 0)
 					Subtract(listCMD);
 				break;
 			case "roll":
-				outputStack += "\n";
 				if(listCMD.Count > 0)
 					Roll(listCMD);
 				break;
@@ -87,25 +84,20 @@ public class CommandLine : MonoBehaviour {
 					TextColor (listCMD);
 				break;
 			case "name":
-				outputStack += "\n";
 				Name ();
 				break;
 			case "cName":
-				outputStack += "\n";
 				if(listCMD.Count > 0)
 					ChangeName (listCMD);
 				break;
 			case "newPlayer":
-				outputStack += "\n";
 				if(listCMD.Count > 0)
 					NewPlayer(listCMD);
 				break;
 			case "savePlayer":
-				outputStack += "\n";
 				SavePlayer();
 				break;
 			case "loadPlayer":
-				outputStack += "\n";
 				if(listCMD.Count > 0)
 					LoadPlayer(listCMD);
 				break;
@@ -156,20 +148,18 @@ public class CommandLine : MonoBehaviour {
 				consoleOutput.text = " ";
 				break;
 			case "help":
-				outputStack += "\n";
 				Help ();
 				break;
 			default:
 				outputStack += "\n";
-				outputStack += "Invalid Command!";
+				outputStack += "Invalid Command!" + "\n";
 				break;
 		}
 
-
-		StartCoroutine(PrintOut());
+		StartCoroutine(PrintOutConsole());
 	}
 
-	IEnumerator PrintOut(){
+	IEnumerator PrintOutConsole(){
 		if(outputStack.Length != 0){
 			for(int i = 0; i < outputStack.Length; i++){
 				consoleOutput.text += outputStack[i];
@@ -184,27 +174,31 @@ public class CommandLine : MonoBehaviour {
 		}
 	}
 
+	IEnumerator PrintOutStats(){
+		
+	}
+		
 	void PrintText(List<string> cmdParams){
 		string tempText = "Console: ";
 		for (int i = 0; i < cmdParams.Count; i++) {
 			tempText += cmdParams[i];
 			tempText += " ";
 		}
-		outputStack += tempText;
+		outputStack += tempText + "\n";
 	}
 
 	void Add(List<string> cmdParams){
 		float a = Convert.ToSingle(cmdParams[0]);
 		float b = Convert.ToSingle(cmdParams[1]);
 		float c = a + b;
-		outputStack += "Console: " + a.ToString() + " + " + b.ToString() + " = " + c.ToString();
+		outputStack += "Console: " + a.ToString() + " + " + b.ToString() + " = " + c.ToString() + "\n";
 	}
 
 	void Subtract(List<string> cmdParams){
 		float a = Convert.ToSingle(cmdParams[0]);
 		float b = Convert.ToSingle(cmdParams[1]);
 		float c = a - b;
-		outputStack += "Console: " + a.ToString() + " - " + b.ToString() + " = " + c.ToString();
+		outputStack += "Console: " + a.ToString() + " - " + b.ToString() + " = " + c.ToString() + "\n";
 	}
 
 	void Roll(List<string> cmdParams){
@@ -216,7 +210,7 @@ public class CommandLine : MonoBehaviour {
 		}
 		int roll = (int)(UnityEngine.Random.Range(lower, upper));
 
-		outputStack += "Console: " + "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!";
+		outputStack += "Console: " + "A " + upper.ToString() + " dice rolled a " + roll.ToString() + "!" + "\n";
 	}
 
 	void TextColor (List<string> cmdParams){
@@ -224,25 +218,32 @@ public class CommandLine : MonoBehaviour {
 		int green = Convert.ToInt32(cmdParams [1]);
 		int blue = Convert.ToInt32(cmdParams [2]);
 		Color newTextColor = new Color (red/255.0f, green/255.0f, blue/255.0f, 1);
-		consoleOutput.color = newTextColor;
-		inputText.color = newTextColor;
-		beforeCMDText.color = newTextColor;
-		statsMenu.strText.color = newTextColor;
-		statsMenu.agiText.color = newTextColor;
-		statsMenu.intText.color = newTextColor;
-		statsMenu.vitText.color = newTextColor;
-		statsMenu.lucText.color = newTextColor;
-		statsMenu.titleText.color = newTextColor;
-		statsMenu.playerName.color = newTextColor;
+//		consoleOutput.color = newTextColor;
+//		inputText.color = newTextColor;
+//		beforeCMDText.color = newTextColor;
+//		statsMenu.strText.color = newTextColor;
+//		statsMenu.agiText.color = newTextColor;
+//		statsMenu.intText.color = newTextColor;
+//		statsMenu.vitText.color = newTextColor;
+//		statsMenu.lucText.color = newTextColor;
+//		statsMenu.titleText.color = newTextColor;
+//		statsMenu.playerName.color = newTextColor;
+		foreach(Text t in consoleCanvas.GetComponentsInChildren<Text>()){
+			t.color = newTextColor;
+		}
+
+		foreach(Text t in statsCanvas.GetComponentsInChildren<Text>()){
+			t.color = newTextColor;
+		}
 	}
 
 	void Name(){
-		outputStack += "Console: " + "Your name is " + name;
+		outputStack += "Console: " + "Your name is " + name + "\n";
 	}
 
 	void ChangeName(List<string> cmdParams){
 		name = cmdParams [0];
-		outputStack += "Console: " + "You have changed your name to " + name;
+		outputStack += "Console: " + "You have changed your name to " + name + "\n";
 	}
 
 	void NewPlayer(List<string> cmdParams){
@@ -263,8 +264,19 @@ public class CommandLine : MonoBehaviour {
 			outputStack += "Console: No player with that name found.\n";
 			return;
 		}
-		if(!players.Contains(tempP)){
-			players.Add(tempP);
+		bool foundPlayer = false;
+		if (players.Count > 0) {
+			for (int i = 0; i < players.Count; i++) {
+				if (tempP.playerName == players[i].playerName) {
+					foundPlayer = true;
+				}
+			}
+			if (!foundPlayer) {
+				players.Add (tempP);
+			}
+		}
+		else {
+			players.Add (tempP);
 		}
 		statsMenu.player = tempP;
 		outputStack += "Console: Player - " + cmdParams[0] + " has been loaded.\n";
@@ -280,7 +292,6 @@ public class CommandLine : MonoBehaviour {
 		"Intelligence: " + player.intelligence + "\n" +
 		"Vitality: " + player.vitality + "\n" +
 		"Luck: " + player.luck + "\n";
-
 	}
 
 	void ChangeStats(Player player, List<string> cmdParams){

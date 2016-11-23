@@ -1,10 +1,10 @@
 {
     "playerName": "andrew",
-    "strength": 5,
-    "agility": 4,
-    "intelligence": 2,
-    "vitality": 3,
-    "luck": 12,
+    "strength": 9,
+    "agility": 6,
+    "intelligence": 4,
+    "vitality": 6,
+    "luck": 16,
     "playerLevel": 0,
     "exp": 0.0,
     "weapons": []

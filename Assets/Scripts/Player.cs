@@ -38,4 +38,22 @@ public class Player : MonoBehaviour	 {
 				break;
 		}
 	}
+
+	public override bool Equals(System.Object otherPlayer){
+		if (otherPlayer == null) {
+			return false;
+		}
+		Player p = otherPlayer as Player;
+		if ((System.Object)p == null)
+			return false;
+		
+		return playerName == p.playerName;
+	}
+
+	public bool Equals(Player otherPlayer){
+		if ((object)otherPlayer == null) {
+			return false;
+		}
+		return playerName == otherPlayer.playerName;
+	}
 }

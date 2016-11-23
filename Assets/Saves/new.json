@@ -1,10 +1,11 @@
 {
-    "playerName": "bob",
+    "playerName": "new",
     "strength": 0,
     "agility": 0,
     "intelligence": 0,
-    "vitality": 2,
+    "vitality": 0,
     "luck": 0,
     "playerLevel": 0,
-    "exp": 0.0
+    "exp": 0.0,
+    "weapons": []
 }
