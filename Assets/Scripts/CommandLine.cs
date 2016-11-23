@@ -24,7 +24,15 @@ public class CommandLine : MonoBehaviour {
 	string outputStack;
 	bool commandRunning = false;
 
-
+	void Start(){
+		outputStack += "Dir_Virtual: Loading AI_Network > \n " +
+			"\tLoaded AI_Network.dat \n" +
+			"Dir_Virtual: Loading Heuristics > \n " +
+			"\tLoaded Mental_Map.dat \n" +
+			"Dir_Virtual: All systems loaded.\n" +
+			"Console: Awaiting Input.\n";
+		StartCoroutine(PrintOutConsole());
+	}
 
 	void OnEnable () {
 		consoleOutput = console.GetComponent<Text>();
@@ -174,10 +182,6 @@ public class CommandLine : MonoBehaviour {
 		}
 	}
 
-	IEnumerator PrintOutStats(){
-		
-	}
-		
 	void PrintText(List<string> cmdParams){
 		string tempText = "Console: ";
 		for (int i = 0; i < cmdParams.Count; i++) {

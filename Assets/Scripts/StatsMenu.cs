@@ -83,7 +83,7 @@ public class StatsMenu : MonoBehaviour {
 		intText.text = "Intelligence: " + player.intelligence;
 		vitText.text = "Vitality: " + player.vitality;
 		lucText.text = "Luck: " + player.luck;
-		playerName.text = player.playerName;
+		playerName.text = "$Name = " + player.playerName;
 	}
 
 
