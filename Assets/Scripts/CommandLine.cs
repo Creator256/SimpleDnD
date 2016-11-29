@@ -6,6 +6,7 @@ using System;
 
 public class CommandLine : MonoBehaviour {
 
+
 	public RectTransform console;
 	public Transform consoleCanvas;
 	public Transform statsCanvas;
@@ -20,6 +21,10 @@ public class CommandLine : MonoBehaviour {
 	public float outputSpeed;
 
 	public List<Player> players;
+
+	[Header("Resize Vars")]
+	public RectTransform holder;
+	public RectTransform inputLine;
 
 	string outputStack;
 	bool commandRunning = false;
@@ -175,6 +180,8 @@ public class CommandLine : MonoBehaviour {
 			}
 			outputStack = "";
 			commandRunning = false;
+			holder.offsetMin = new Vector2(holder.offsetMin.x, inputLine.offsetMin.y);
+
 		}
 		else{
 			outputStack = "";
